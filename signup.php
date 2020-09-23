@@ -1,5 +1,9 @@
 <?php
-//registreren.php
+
+include 'database.php';
+
+$db = new database('localhost', 'root', '', 'project1', 'utf8');
+$db->executeQueryExample();
 
 ?>
 

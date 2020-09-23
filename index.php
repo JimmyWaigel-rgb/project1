@@ -1,52 +1,18 @@
 <?php 
-//index.php
 session_start();
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "login-system";
-$message = "";
+include "database.php";
 
-try
-{
-    $connect = new PDO("mysql:host=$host; dbname=$database", $username, $password);
-    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//database login 
+$db = new DB('localhost', 'root', '', 'project1', 'utf8');
 
-    if (isset($_POST["login"])) 
-    {
-        if (empty($_POST["username"]) || empty($_POST["password"])) 
-        {
+//email and password check
+    if (isset($_POST["login"])) {
+        if (empty($_POST["email"]) || empty($_POST["password"])) {
             $message = '<label>All fields are required</label>';
-        }
-        else
-        {
-            $query = "SELECT * FROM users where username = :username AND password = :password";
-            $statement = $connect->prepare($query);
-            $statement->execute(
-                array(
-                    'username' => $_POST["username"],
-                    'password' => $_POST["password"]
-                )
-            );
-            $count = $statement->rowCount();
-            if($count > 0)
-            {
-                $_SESSION["username"] = $_POST["username"];
-                header("location:login_succes.php");
-            }
-            else
-            {
-                $message = '<label>Verkeerde wachtwoord of username</label>';
-            }
+        } else {
+            $db->login();
         }
     }
-
-}
-catch(PDOException $error)
-{
-    // $message = $error->getMessage();
-    $message = $error->$message = '<label>Verkeerde wachtwoord of username</label>';
-}
 
 ?>
 
