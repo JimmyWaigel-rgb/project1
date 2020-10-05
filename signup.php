@@ -1,14 +1,41 @@
 <?php
+//registreren.php
 
-include 'database.php';
+include "database.php";
 
-$db = new database('localhost', 'root', '', 'project1', 'utf8');
-$db->executeQueryExample();
+$fieldnames = ['voornaam', 'achternaam', 'email', 'username', 'wachtwoord']; // todo: password check (password confirmation) // neem alle values van de name attributes van de input fields op in deze array
+$error = FALSE;
+
+foreach($fieldnames as $fieldname){
+    if(!isset($_POST[$fieldname]) || empty($_POST[$fieldname])){
+        $error = TRUE;
+        // header()
+        //exit;
+    }
+}
+
+if(!$error){
+    $voornaam = $_POST["voornaam"];
+    $tussenvoegsel = $_POST["tussenvoegsel"];
+    $achternaam = $_POST["achternaam"];
+    $email = $_POST["email"];
+    $username = $_POST["username"];
+    $wachtwoord = $_POST["wachtwoord"];
+    
+    $db = new DB('localhost', 'root', '', 'project1', 'utf8');
+    $db->execute($voornaam, $tussenvoegsel, $achternaam, $email, $username, $wachtwoord);
+
+    // login -> authenticatie imprlementeren -> index.php
+    // usertype -> admin (update functie in database implemente)
+
+
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,15 +50,16 @@ $db->executeQueryExample();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
 </head>
+
 <body>
     <br>
     <br>
     <div class="container" style="width: 500px;">
         <h3>PHP Registratie Pagina</h3><br>
-        <form action="process.php" method="post">
+        <form action="" method="post">
 
             <label for="Voornaam">Voornaam</label>
-            <input type="text" name="voornaam" class="form-control" required>
+            <input type="text" name="voornaam" class="form-control" >
             <br>
 
             <label for="Tussenvoegsel">Tussenvoegsel</label>
@@ -39,31 +67,31 @@ $db->executeQueryExample();
             <br>
 
             <label for="Achternaam">Achternaam</label>
-            <input type="text" name="achternaam" class="form-control" required>
+            <input type="text" name="achternaam" class="form-control" >
             <br>
 
             <label for="E-mail">E-mail</label>
-            <input type="text" name="email" class="form-control" required>
+            <input type="text" name="email" class="form-control" >
             <br>
 
             <label for="Username">Username</label>
-            <input type="text" name="username" class="form-control" required>
+            <input type="text" name="username" class="form-control" >
             <br>
-            
+
             <label for="Wachtwoord">Wachtwoord</label>
-            <input type="password" name="wachtwoord" class="form-control" required>
+            <input type="password" name="wachtwoord" class="form-control" >
             <br>
 
             <label for="Password">Herhaal Wachtwoord</label>
-            <input type="password" name="herhaal-wachtwoord" class="form-control" required>
+            <input type="password" name="herhaal-wachtwoord" class="form-control" >
             <br>
-            
 
-            <input type="submit" name="Registeren" class="btn btn-info" value="Registreren">
-            <button type="button" class="btn btn-link"><a href="index.php">Login?</a></button>
-            <button type="button" class="btn btn-link"><a href="lostpsw.php">Wachtwoord vergeten?</a></button>
+            <input type="submit" name="Registreren" class="btn btn-info" value="Registreren">
+            <a href="index.php" class="btn btn-link" role="button">Login?</a>
+            <a href="lostpsw.php" class="btn btn-link" role="button">Wachtwoord vergeten?</a>
         </form>
         <br>
     </div>
 </body>
+
 </html>

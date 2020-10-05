@@ -1,32 +1,52 @@
---database verwijderen--
+-- database verwijderen--
 DROP DATABASE project1;
---database aanmaken--
+-- database aanmaken--
 CREATE DATABASE project1;
---table Account aangemaakt data typen--
-CREATE TABLE Account (
-id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    email varchar (255),
-    password varchar(255)
+
+CREATE TABLE usertype (
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    type varchar(255) NOT NULL,
+    created date NOT NULL,
+    last_updated date NOT NULL
 );
---table Account aangemaakt met data typen--
+-- table Account aangemaakt data typen--
+CREATE TABLE Account (
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username varchar(255) NOT NULL,
+    email varchar (255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
+    usertype_id int,
+    foreign key (usertype_id) references usertype(id),
+    created date NOT NULL,
+    last_updated date NOT NULL
+);
+-- table Account aangemaakt met data typen--
 CREATE TABLE Persoon(
 	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    voornaam varchar(255),
+    voornaam varchar(255) NOT NULL,
     Tussenvoegsel varchar(255),
-    Achternaam varchar(255),
-    username varchar(255),
+    Achternaam varchar(255) NOT NULL,
     account_id int,
-    FOREIGN KEY (account_id) REFERENCES account(id)
+    FOREIGN KEY (account_id) REFERENCES account(id),
+    created date NOT NULL,
+    last_updated date NOT NULL
 );
 
 
---Insert Admin account--
-INSERT INTO Account (email, password)
-VALUES ('jimmy@admin.com', 'admin');
+-- Insert Admin account--
+INSERT INTO Account (email, password, username)
+VALUES ('jimmy@admin.com', 'admin', 'admin');
 
-INSERT INTO Persoon (voornaam, tussenvoegsel, achternaam, username)
-VALUES ('jimmy', '', 'Waigel', 'admin');
+INSERT INTO Persoon (voornaam, achternaam)
+VALUES ('jimmy', 'Waigel');
+
+INSERT INTO usertype (type)
+VALUES ('Admin');
 
 UPDATE Persoon 
 SET account_id = (select id from account where email = 'jimmy@admin.com')
-WHERE voornaam = 'jimmy'
+WHERE voornaam = 'jimmy';
+
+UPDATE account
+SET usertype_id = (select id from usertype where type = "admin")
+WHERE email = 'jimmy@admin.com';

@@ -35,17 +35,16 @@ $db = new DB('localhost', 'root', '', 'project1', 'utf8');
 <body>
     <br>
     <?php
-    if(isset($message))
-    {
-        echo '<label class="test-danger">'.$message.'</label>';
+    if (isset($message)) {
+        echo '<label class="test-danger">' . $message . '</label>';
     }
     ?>
     <div class="container" style="width: 500px;">
         <h3>PHP Login Pagina</h3><br>
         <form action="" method="post">
 
-            <label for="Username">Username</label>
-            <input type="text" name="username" class="form-control">
+            <label for="Email">Email</label>
+            <input type="text" name="email" class="form-control">
             <br>
 
             <label for="Password">Password</label>
@@ -53,9 +52,10 @@ $db = new DB('localhost', 'root', '', 'project1', 'utf8');
             <br>
 
             <input type="submit" name="login" class="btn btn-info" value="Login">
-            <button type="button" class="btn btn-link"><a href="signup.php">Registreren?</a></button>
-            <button type="button" class="btn btn-link"><a href="lostpsw.php">Wachtwoord vergeten?</a></button>
+            <a href="signup.php" class="btn btn-link" role="button">Registreren?</a>
+            <a href="lostpsw.php" class="btn btn-link" role="button">Wachtwoord vergeten?</a>
         </form>
     </div>
 </body>
+
 </html>
