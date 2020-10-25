@@ -1,50 +1,5 @@
 <?php
 //lost-password.php
-session_start();
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "project1";
-$message = "";
-
-$to_email = "jimmywaigel@live.nl";
-$subject = "Verander wachtwoord.";
-$body = "Hierbij sturen wij u een mail om uw wachtwoord te veranderen.\nAls u dit niet heeft aangevraagd kunt u deze mail negeren.\nhttp://localhost/project1/change-succes.php";
-$headers = "From: jimmywaigel@live.nl";
-
-try {
-    $connect = new PDO("mysql:host=$host; dbname=$database", $username, $password);
-    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    if (isset($_POST["verstuur"])) {
-        if (empty($_POST["email"])) {
-            $message = '<label>U moet wel een email invoeren.</label>';
-        } else {
-            $query = "SELECT * FROM users where email = :email";
-            $statement = $connect->prepare($query);
-            $statement->execute(
-                array(
-                    'email' => $_POST["email"]
-                )
-            );
-            $count = $statement->rowCount();
-            if ($count > 0) {
-                $_SESSION["email"] = $_POST["email"];
-                // if (mail($to_email, $subject, $body, $headers)) {
-                //     echo "Email successfully sent to $to_email...";
-                // } else {
-                //     echo "Email sending failed...";
-                // }
-                header("location:change-succes.php");
-            } else {
-                $message = '<label>Uw email komt niet voor in onze database.</label>';
-            }
-        }
-    }
-} catch (PDOException $error) {
-    // $message = $error->getMessage();
-    $message = $error->$message = '<label>Uw email komt niet voor in onze database.</label>';
-}
 
 
 
